@@ -1,6 +1,7 @@
 # Profile
+<img src="https://github.com/user-attachments/assets/714056e9-1624-4dd6-b8d3-6c9fafbd638b" style="margin-left: auto; margin-right: auto; border-radius: 25px; width: 512px; aspect-ratio: 1/1;" />
 
-This is my personal website [keliumju.com] https://keliumju.com, here going to share anything :3
+This is my personal website [keliumju.com](https://keliumju.com), here going to share anything :3
 
 ### Usage local development
 
@@ -16,7 +17,6 @@ This is my personal website [keliumju.com] https://keliumju.com, here going to s
 6. To enable the tailwind compilation run in another terminal `npx tailwindcss -i ./Styles/input.css -o ./wwwroot/styles.css --watch`
 
 ### VSCode user settings(for better dev experience with .net blazor web apps)
-`
 1. Go to User `settings.json`
 2. Add the next setup for tailwind intellisense in .razor files and better autocomplete only with **tab** key:
 
@@ -32,4 +32,4 @@ This is my personal website [keliumju.com] https://keliumju.com, here going to s
   },
 ```
 
-** That is all 🎉🎉**
+**That is all 🎉🎉**
