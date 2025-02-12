@@ -5,7 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+    @* 
+        works for isolation CSS in blazor server app in compile time
+        <link rel="stylesheet" href="Profile.styles.css" />
+    *@
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="blog.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <link rel="icon" type="image/svg" href="logo-min.svg" />
     <HeadOutlet />
 </head>
@@ -13,6 +19,8 @@
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+   <script src="syntaxHighLight.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,3 @@
+function codeSyntaxHighlight() {
+  hljs.highlightAll();
+}

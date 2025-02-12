@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Westwind.Web.Markdown" Version="0.2.15" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+  </ItemGroup>
+
 </Project>
