@@ -1,0 +1,56 @@
+@using YamlDotNet.Serialization
+@using YamlDotNet.Serialization.NamingConventions
+@using YamlDotNet.Core
+@using YamlDotNet.Core.Events
+@using Profile.Models
+@inject IHostEnvironment Env
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+@page "/dsa/{slug:nonfile}"
+
+<PageTitle>dsa/@Slug</PageTitle>
+
+<div class="markdown-body">
+  @((MarkupString)post.Content)
+</div>
+
+@code {
+  [Parameter]
+
+  public String Slug{get; set;} = string.Empty;
+  public Post post = new();
+  //private IJSObjectReference? module;
+  protected override async Task OnInitializedAsync() {
+
+    String folderPath = String.Concat(Env.ContentRootPath, "/wwwroot", "/dsa", $"/{Slug}.md");
+    var document = await File.ReadAllTextAsync(folderPath);
+    if (document is null ) {
+      NavigationManager.NavigateTo("/Error");
+      return;
+    }
+
+    var yamlDeserializer = new DeserializerBuilder()
+                  .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                  .Build();
+
+    using (var input = new StringReader(document)) {
+        var parser = new Parser(input);
+        parser.Consume<StreamStart>();
+        parser.Consume<DocumentStart>();
+        post = yamlDeserializer.Deserialize<Post>(parser);
+        parser.Consume<DocumentEnd>();
+    }
+
+    post.Content = Markdown.Parse(document);
+  }
+
+  protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("codeSyntaxHighlight");
+        }
+    }
+}
