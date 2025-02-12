@@ -1,5 +1,52 @@
+@using Microsoft.AspNetCore.Hosting
+@using YamlDotNet.Serialization
+@using YamlDotNet.Serialization.NamingConventions
+@using YamlDotNet.Core
+@using YamlDotNet.Core.Events
+@using Profile.Models
+@inject IHostEnvironment Env
 @page "/dsa"
 
 <PageTitle>dsa</PageTitle>
-<h1 class="font-bold text-2xl mb-5">Data Structures and Algorithms</h1>
-<p class="text-xl">Coming soon ...</p>
+<h1 class="font-bold text-3xl mb-5 bg-[#fe7f9d] p-5 rounded-lg text-center">Data Structures and Algorithms</h1>
+
+<div>
+    @foreach (var post in posts) {
+    <ul class="flex flex-col gap-y-1.5 mb-2">
+        <li><h1 class="text-3xl font-bold"><a class="no-underline hover:underline" href="@post.GetUrl()">@post.Title</a></h1></li>
+        <li class="mb-1.5 flex flex-row gap-x-2 italic items-center">
+          <span class="font-medium text-lg">@post.Author</span>
+          <span>-</span>
+          <span class="font-bold text-sm text-white/90">@post.GetFormattedDate()</span>
+          </li>
+        <li><p class="text-lg text-pretty">@post.Description</p></li>
+    </ul>
+    <hr class="w-full h-0.5 bg-[#fe7f9d] border-[#fe0100] rounded-2xl mb-5">
+    }
+</div>
+
+@code {
+    private List<Post> posts = new();
+    //private Post post = new();
+    protected override async Task OnInitializedAsync() {
+      var folderPath = String.Concat(Env.ContentRootPath, "/wwwroot", "/dsa");
+
+      var yamlDeserializer = new DeserializerBuilder()
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .Build();
+
+      foreach (var filePath in Directory.GetFiles(folderPath)) {
+        var document = await File.ReadAllTextAsync(filePath);
+        using (var input = new StringReader(document))
+        {
+            var parser = new Parser(input);
+            parser.Consume<StreamStart>();
+            parser.Consume<DocumentStart>();
+            var post = yamlDeserializer.Deserialize<Post>(parser);
+            posts.Add(post);
+            parser.Consume<DocumentEnd>();
+        }
+      }
+      posts.Sort((s1, s2) => s1.GetDateWithType().CompareTo(s2.GetDateWithType()));
+    }
+}
