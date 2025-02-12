@@ -1,6 +1,7 @@
 using Westwind.Web.Markdown.MarkdownParser;
 
-public static class Markdown {
+public static class Markdown
+{
     public static string Parse(string markdown, bool usePragmaLines = false, bool forceReload = false)
     {
         if (string.IsNullOrEmpty(markdown))
